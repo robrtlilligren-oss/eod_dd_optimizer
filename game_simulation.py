@@ -22,7 +22,7 @@ def run_simulation(bet_amount, win_rate, win_multiplier, starting_balance, winni
     return balance, num_bets
 
 # Streamlit interface
-st.title("Game Simulation Settings")
+st.title("End of Day Draw Down Sim")  # Updated title
 
 # Input fields
 bet_size = st.slider("Bet Size", 100, 1000, 500)
@@ -64,6 +64,11 @@ if st.button("Run Simulation"):
     ax.axhline(y=winning_balance, color='red', linestyle='--', label="Winning Balance")
     ax.axhline(y=starting_balance - initial_drawdown, color='blue', linestyle='--', label="Drawdown Limit")
     ax.set_xlabel('Simulation Number')
+    ax.set_ylabel('Final Balance')
+    ax.set_title('Simulation Results')
+    ax.legend()
+    st.pyplot(fig)
+
     ax.set_ylabel('Final Balance')
     ax.set_title('Simulation Results')
     ax.legend()
