@@ -25,7 +25,7 @@ def run_simulation(bet_amount, win_rate, win_multiplier, starting_balance, winni
 st.title("End of Day Draw Down Sim")  # Updated title
 
 # Input fields
-bet_size = st.slider("Bet Size", 100, 1000, 500)
+bet_size = st.slider("Position Size Dollars", 1, 5000, 500)  # Changed to 1 to 5000, label updated
 win_rate = st.slider("Win Rate (%)", 0, 100, 50) / 100  # Convert to fraction
 win_multiplier = st.slider("Win Multiplier", 1.00, 5.00, 2.00, 0.01)  # Slider with 2 decimal points for win multiplier
 starting_balance = st.number_input("Starting Balance", min_value=1000, value=50000)
@@ -69,7 +69,3 @@ if st.button("Run Simulation"):
     ax.legend()
     st.pyplot(fig)
 
-    ax.set_ylabel('Final Balance')
-    ax.set_title('Simulation Results')
-    ax.legend()
-    st.pyplot(fig)
