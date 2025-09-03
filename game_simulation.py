@@ -55,8 +55,9 @@ if st.button("Run Simulation"):
     # Display results
     st.subheader("Simulation Results")
     st.write(f"Win Probability: {win_probability:.4f}")
-    st.write(f"Loss Probability: {loss_probability:.4f}")
+    # st.write(f"Loss Probability: {loss_probability:.4f}")
     st.write(f"Average Number of Trades: {average_bets:.2f}")  # Changed label here
+
 
     # Plotting results
     fig, ax = plt.subplots(figsize=(10, 6))
