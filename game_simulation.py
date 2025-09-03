@@ -57,7 +57,7 @@ if st.button("Run Simulation"):
     st.write(f"Probability of Passing Eval/Not Blowing Account: {win_probability:.4f}")
     st.write(f"Probability of Failure/Blowing Account: {loss_probability:.4f}")
     st.write(f"*Difference is simulations that did not terminate in either win or loss after 1000 trades.")
-    st.write(f"Average Number of Trades until win/loss: {average_bets:.2f}")  # Changed label here
+    st.write(f"Average Number of Trades Until Pass/Fail: {average_bets:.2f}")  # Changed label here
     
 
 
