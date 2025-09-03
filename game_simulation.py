@@ -27,9 +27,9 @@ st.title("End of Day Draw Down Sim")  # Updated title
 # Input fields
 bet_size = st.slider("Position Size Dollars", 1, 5000, 239)  # Changed to 1 to 5000, label updated
 win_rate = st.slider("Win Rate (%)", 0, 100, 50) / 100  # Convert to fraction
-win_multiplier = st.slider("Win Multiplier", 1.00, 5.00, 2.00, 0.01)  # Slider with 2 decimal points for win multiplier
+win_multiplier = st.slider("RR", 1.00, 5.00, 2.00, 0.1)  # Slider with 2 decimal points for win multiplier
 starting_balance = st.number_input("Starting Balance", min_value=1000, value=50000)
-winning_balance = st.number_input("Winning Balance", min_value=1000, value=54000)
+winning_balance = st.number_input("Passing Balance", min_value=1000, value=54000)
 initial_drawdown = st.slider("Maximum Drawdown (Loss Limit)", 500, 10000, 2000)  # Slider for drawdown limit
 
 # Run simulation button
@@ -54,8 +54,8 @@ if st.button("Run Simulation"):
 
     # Display results
     st.subheader("Simulation Results")
-    st.write(f"Probability of Passing Eval/Not Blowing Account: {win_probability:.4f}")
-    st.write(f"Probability of Failure/Blowing Account: {loss_probability:.4f}")
+    st.write(f"Probability of Passing Eval or Not Blowing Account: {win_probability:.4f}")
+    st.write(f"Probability of Failure or Blowing Account: {loss_probability:.4f}")
     st.write(f"*Difference is simulations that did not terminate in either pass/fail after 1000 trades.")
     st.write(f"Average Number of Trades Until Pass/Fail: {average_bets:.2f}")  # Changed label here
     
