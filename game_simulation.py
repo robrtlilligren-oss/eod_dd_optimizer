@@ -22,7 +22,7 @@ def run_simulation(bet_amount, win_rate, win_multiplier, starting_balance, winni
     return balance, num_bets
 
 # Streamlit interface
-st.title("End of Day Draw Down Sim")  # Updated title
+st.title("EOD DD Planning Tool")  # Updated title
 
 # Input fields
 bet_size = st.slider("Position Size Dollars", 1, 5000, 239)  # Changed to 1 to 5000, label updated
