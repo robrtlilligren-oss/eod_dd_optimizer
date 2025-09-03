@@ -30,7 +30,7 @@ win_rate = st.slider("Win Rate (%)", 0, 100, 50) / 100  # Convert to fraction
 win_multiplier = st.slider("Win Multiplier", 1.00, 5.00, 2.00, 0.01)  # Slider with 2 decimal points for win multiplier
 starting_balance = st.number_input("Starting Balance", min_value=1000, value=50000)
 winning_balance = st.number_input("Winning Balance", min_value=1000, value=54000)
-initial_drawdown = st.slider("Maximum Drawdown (Loss Limit)", 500, 5000, 2000)  # Slider for drawdown limit
+initial_drawdown = st.slider("Maximum Drawdown (Loss Limit)", 500, 10000, 2000)  # Slider for drawdown limit
 
 # Run simulation button
 if st.button("Run Simulation"):
