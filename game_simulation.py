@@ -71,4 +71,4 @@ if st.button("Run Simulation"):
     ax.set_title('Simulation Results')
     ax.legend()
     st.pyplot(fig)
-    st.pyplot(fig)
+  
