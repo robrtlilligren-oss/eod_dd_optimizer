@@ -12,7 +12,6 @@ def run_simulation(
     starting_balance,
     winning_balance,
     initial_drawdown,
-    simulations=10000,
     max_trades=1000
 ):
     balance = starting_balance
@@ -24,7 +23,7 @@ def run_simulation(
         if np.random.rand() < win_rate:
             balance += bet_amount * win_multiplier
         else:
-            balance += bet_amount * -1
+            balance -= bet_amount
 
         max_balance = max(max_balance, balance)
 
@@ -38,7 +37,7 @@ def run_simulation(
 
     if balance <= drawdown_limit:
         return balance, num_bets, "FAIL"
-    
+
     return balance, num_bets, "INCONCLUSIVE"
 
 # ------------------------------
@@ -66,7 +65,8 @@ if st.button("Run Simulation"):
             win_multiplier,
             starting_balance,
             winning_balance,
-            initial_drawdown
+            initial_drawdown,
+            max_trades=1000  # ✅ Explicitly set trade limit
         )
         results.append((score, num_bets, outcome))
 
@@ -90,8 +90,11 @@ if st.button("Run Simulation"):
     st.write(f"⚠️ Inconclusive (Did not reach pass/fail in 1000 trades): {inconclusive / simulations:.1%}")
     st.write(f"🔁 Number of Trades Until Pass/Fail: {average_bets:.2f}")
 
-    # Plot Results (Exclude inconclusive)
-    filtered_scores = [r[0] for r in results if r[2] != "INCONCLUSIVE"]
+    # Plot Results (Only show true pass/fail balances)
+    filtered_scores = [
+        r[0] for r in results
+        if r[0] >= winning_balance or r[0] <= (starting_balance - initial_drawdown)
+    ]
 
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.plot(filtered_scores, label='Final Balances', marker='o', linestyle='', markersize=2, color='green')
