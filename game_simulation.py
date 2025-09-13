@@ -54,7 +54,7 @@ if st.button("Run Simulation"):
     simulations = 10000
     results = []
 
-    for _ in range(simulations):
+    for i in range(simulations):
         score, num_bets, outcome = run_simulation(
             bet_size,
             win_rate,
@@ -64,11 +64,11 @@ if st.button("Run Simulation"):
             initial_drawdown,
             simulations,
         )
-        results.append((score, num_bets, outcome))
+        results.append((i, score, num_bets, outcome))
 
-    final_scores = [r[0] for r in results]
-    num_bets_list = [r[1] for r in results]
-    outcomes = [r[2] for r in results]
+    final_scores = [r[1] for r in results]
+    num_bets_list = [r[2] for r in results]
+    outcomes = [r[3] for r in results]
 
     wins = outcomes.count("PASS")
     losses = outcomes.count("FAIL")
@@ -85,17 +85,21 @@ if st.button("Run Simulation"):
     st.write(f"⚠️ Inconclusive (Did not reach pass/fail in 1000 trades): {inconclusive_probability:.1%}")
     st.write(f"🔁 Number of Trades Until Pass/Fail or Max Trades: {average_bets:.2f}")
 
-    scores_all = [r[0] for r in results]
+    # Prepare lists of points by outcome for correct color coding
+    pass_points = [(idx, score) for idx, score, _, outcome in results if outcome == "PASS"]
+    fail_points = [(idx, score) for idx, score, _, outcome in results if outcome == "FAIL"]
+    incon_points = [(idx, score) for idx, score, _, outcome in results if outcome == "INCONCLUSIVE"]
+
+    # Unpack for plotting (handle empty lists)
+    pass_x, pass_y = zip(*pass_points) if pass_points else ([], [])
+    fail_x, fail_y = zip(*fail_points) if fail_points else ([], [])
+    incon_x, incon_y = zip(*incon_points) if incon_points else ([], [])
 
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(
-        scores_all,
-        label="Final Scores (All outcomes)",
-        marker="o",
-        linestyle="None",
-        color="green",
-        markersize=3,
-    )
+    ax.scatter(pass_x, pass_y, color="green", s=10, label="PASS")
+    ax.scatter(fail_x, fail_y, color="red", s=10, label="FAIL")
+    ax.scatter(incon_x, incon_y, color="yellow", s=10, label="INCONCLUSIVE")
+
     ax.axhline(y=winning_balance, color="red", linestyle="--", label="Winning Balance")
     ax.axhline(
         y=starting_balance - initial_drawdown,
