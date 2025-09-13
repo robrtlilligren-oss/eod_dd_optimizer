@@ -2,7 +2,6 @@ import numpy as np
 import streamlit as st
 import matplotlib.pyplot as plt
 
-# Function to run simulation
 def run_simulation(
     bet_amount,
     win_rate,
@@ -22,7 +21,7 @@ def run_simulation(
         if np.random.rand() < win_rate:
             balance += bet_amount * win_multiplier
         else:
-            balance -= bet_amount  # subtract for loss clarity
+            balance -= bet_amount
 
         max_balance = max(max_balance, balance)
         if balance >= max_balance:
@@ -30,26 +29,27 @@ def run_simulation(
 
         if balance >= winning_balance:
             return balance, num_bets, "PASS"
+
         num_bets += 1
 
-    if balance <= drawdown_limit:
+    # Final check after loop
+    if balance >= winning_balance:
+        return balance, num_bets, "PASS"
+    elif balance <= drawdown_limit:
         return balance, num_bets, "FAIL"
+    else:
+        return balance, num_bets, "INCONCLUSIVE"
 
-    return balance, num_bets, "INCONCLUSIVE"
 
-
-# Streamlit interface
 st.title("EOD DD Planning Tool")
 
-# Input fields
 bet_size = st.slider("Risk Size Dollars", 1, 5000, 239)
-win_rate = st.slider("Win Rate (%)", 0, 100, 50) / 100  # convert to fraction
+win_rate = st.slider("Win Rate (%)", 0, 100, 50) / 100
 win_multiplier = st.slider("RR", 1.00, 5.00, 2.00, 0.1)
 starting_balance = st.number_input("Starting Balance", min_value=1000, value=50000)
 winning_balance = st.number_input("Passing Balance", min_value=1000, value=53000)
 initial_drawdown = st.slider("Maximum Drawdown (Loss Limit)", 500, 10000, 2000)
 
-# Run simulation button
 if st.button("Run Simulation"):
     simulations = 10000
     results = []
@@ -66,7 +66,6 @@ if st.button("Run Simulation"):
         )
         results.append((score, num_bets, outcome))
 
-    # Calculate statistics
     final_scores = [r[0] for r in results]
     num_bets_list = [r[1] for r in results]
     outcomes = [r[2] for r in results]
@@ -80,14 +79,12 @@ if st.button("Run Simulation"):
     inconclusive_probability = inconclusive / simulations
     average_bets = np.mean(num_bets_list)
 
-    # Display results
     st.subheader("Simulation Results")
-    st.write(f"✅ Chance of Hitting Profit Objective: {win_probability:.1%}")
-    st.write(f"❌ Chance of Hitting Max Draw Down: {loss_probability:.1%}")
+    st.write(f"✅ Chance of Passing Eval/Hitting Profit Objective: {win_probability:.1%}")
+    st.write(f"❌ Probability of Failure or Blowing Account: {loss_probability:.1%}")
     st.write(f"⚠️ Inconclusive (Did not reach pass/fail in 1000 trades): {inconclusive_probability:.1%}")
     st.write(f"🔁 Number of Trades Until Pass/Fail or Max Trades: {average_bets:.2f}")
 
-    # Plotting results (now including inconclusive)
     scores_all = [r[0] for r in results]
 
     fig, ax = plt.subplots(figsize=(10, 6))
