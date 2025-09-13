@@ -32,7 +32,7 @@ def run_simulation(
 
         num_bets += 1
 
-    # Final check after loop
+    # Final check after loop ends
     if balance >= winning_balance:
         return balance, num_bets, "PASS"
     elif balance <= drawdown_limit:
@@ -66,36 +66,23 @@ if st.button("Run Simulation"):
         )
         results.append((score, num_bets, outcome))
 
-    final_scores = [r[0] for r in results]
-    num_bets_list = [r[1] for r in results]
-    outcomes = [r[2] for r in results]
-
-    wins = outcomes.count("PASS")
-    losses = outcomes.count("FAIL")
-    inconclusive = outcomes.count("INCONCLUSIVE")
-
-    win_probability = wins / simulations
-    loss_probability = losses / simulations
-    inconclusive_probability = inconclusive / simulations
-    average_bets = np.mean(num_bets_list)
+    pass_scores = [r[0] for r in results if r[2] == "PASS"]
+    fail_scores = [r[0] for r in results if r[2] == "FAIL"]
+    inconclusive_scores = [r[0] for r in results if r[2] == "INCONCLUSIVE"]
 
     st.subheader("Simulation Results")
-    st.write(f"✅ Chance of Passing Eval/Hitting Profit Objective: {win_probability:.1%}")
-    st.write(f"❌ Probability of Failure or Blowing Account: {loss_probability:.1%}")
-    st.write(f"⚠️ Inconclusive (Did not reach pass/fail in 1000 trades): {inconclusive_probability:.1%}")
+    st.write(f"✅ PASS count: {len(pass_scores)}")
+    st.write(f"❌ FAIL count: {len(fail_scores)}")
+    st.write(f"⚠️ INCONCLUSIVE count: {len(inconclusive_scores)}")
+
+    average_bets = np.mean([r[1] for r in results])
     st.write(f"🔁 Number of Trades Until Pass/Fail or Max Trades: {average_bets:.2f}")
 
-    scores_all = [r[0] for r in results]
-
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(
-        scores_all,
-        label="Final Scores (All outcomes)",
-        marker="o",
-        linestyle="None",
-        color="green",
-        markersize=3,
-    )
+    ax.plot(pass_scores, 'go', label='PASS')
+    ax.plot(fail_scores, 'ro', label='FAIL')
+    ax.plot(inconclusive_scores, 'yo', label='INCONCLUSIVE')
+
     ax.axhline(y=winning_balance, color="red", linestyle="--", label="Winning Balance")
     ax.axhline(
         y=starting_balance - initial_drawdown,
@@ -105,6 +92,6 @@ if st.button("Run Simulation"):
     )
     ax.set_xlabel("Simulation Number")
     ax.set_ylabel("Final Balance")
-    ax.set_title("Simulation Results")
+    ax.set_title("Simulation Results with Outcome Colors")
     ax.legend()
     st.pyplot(fig)
