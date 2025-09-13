@@ -80,8 +80,8 @@ if st.button("Run Simulation"):
     average_bets = np.mean(num_bets_list)
 
     st.subheader("Simulation Results")
-    st.write(f"✅ Chance of Passing Eval/Hitting Profit Objective: {win_probability:.1%}")
-    st.write(f"❌ Probability of Failure or Blowing Account: {loss_probability:.1%}")
+    st.write(f"✅ Chance of Hitting Profit Objective: {win_probability:.1%}")
+    st.write(f"❌ Chance of Hitting Max Draw Down: {loss_probability:.1%}")
     st.write(f"⚠️ Inconclusive (Did not reach pass/fail in 1000 trades): {inconclusive_probability:.1%}")
     st.write(f"🔁 Number of Trades Until Pass/Fail or Max Trades: {average_bets:.2f}")
 
