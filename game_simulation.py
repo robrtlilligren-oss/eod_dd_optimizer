@@ -85,8 +85,8 @@ if st.button("Run Simulation"):
 
     # Display Results
     st.subheader("Simulation Results")
-    st.write(f"✅ Chance of Passing Eval/Hitting Profit Objective: {win_probability:.1%}")
-    st.write(f"❌ Probability of Failure or Blowing Account: {loss_probability:.1%}")
+    st.write(f"✅ Chance of Hitting Profit Objective: {win_probability:.1%}")
+    st.write(f"❌ Chance of Hitting Max DD: {loss_probability:.1%}")
     st.write(f"⚠️ Inconclusive (Did not reach pass/fail in 1000 trades): {inconclusive / simulations:.1%}")
     st.write(f"🔁 Number of Trades Until Pass/Fail: {average_bets:.2f}")
 
