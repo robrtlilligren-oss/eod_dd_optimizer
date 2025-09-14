@@ -41,7 +41,7 @@ def run_simulation(
         return balance, num_bets, "INCONCLUSIVE"
 
 
-st.title("EOD DD Planning Tool")
+st.title("Position Size Planning Tool")
 
 bet_size = st.slider("Risk Size Dollars", 1, 5000, 239)
 win_rate = st.slider("Win Rate (%)", 0, 100, 50) / 100
