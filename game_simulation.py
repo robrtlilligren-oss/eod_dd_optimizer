@@ -98,7 +98,7 @@ if st.button("Run Simulation"):
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.scatter(pass_x, pass_y, color="green", s=10, label="PASS")
     ax.scatter(fail_x, fail_y, color="red", s=10, label="FAIL")
-    ax.scatter(incon_x, incon_y, color="yellow", s=10, label="INCONCLUSIVE")
+    #ax.scatter(incon_x, incon_y, color="yellow", s=10, label="INCONCLUSIVE")
 
     ax.axhline(y=winning_balance, color="red", linestyle="--", label="Winning Balance")
     ax.axhline(
