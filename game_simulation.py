@@ -82,8 +82,8 @@ if st.button("Run Simulation"):
     st.subheader("Simulation Results")
     st.write(f"✅ Chance of Hitting Profit Objective: {win_probability:.1%}")
     st.write(f"❌ Chance of Hitting Max Draw Down: {loss_probability:.1%}")
-    st.write(f"⚠️ Inconclusive (Did not reach pass/fail in 1000 trades): {inconclusive_probability:.1%}")
-    st.write(f"🔁 Number of Trades Until Pass/Fail or Max Trades: {average_bets:.2f}")
+    #st.write(f"⚠️ Inconclusive (Did not reach pass/fail in 1000 trades): {inconclusive_probability:.1%}")
+    st.write(f"🔁 Average Number of Trades Until Pass/Fail: {average_bets:.2f}")
 
     # Prepare lists of points by outcome for correct color coding
     pass_points = [(idx, score) for idx, score, _, outcome in results if outcome == "PASS"]
